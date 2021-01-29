@@ -10,18 +10,9 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.StringTokenizer;
 import java.util.Vector;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.Timer;
 
-import org.openjdk.jmh.annotations.*;
-
-@BenchmarkMode(Mode.Throughput)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
-@State(Scope.Thread)
-@Fork(2)
-@Warmup(iterations = 4)
-@Measurement(iterations = 10)
 public class PaintingAnts extends java.applet.Applet implements Runnable {
   private static final long serialVersionUID = 1L;
   // parametres
@@ -90,10 +81,11 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
    * Obtenir l'information Applet
    *
    */
+
   @Override
   public String[][] getParameterInfo() {
     String[][] lInfo = { { "SeuilLuminance", "string", "Seuil de luminance" }, { "Img", "string", "Image" },
-        { "NbFourmis", "string", "Nombre de fourmis" }, { "Fourmis", "string",
+            { "NbFourmis", "string", "Nombre de fourmis" }, { "Fourmis", "string",
             "Paramètres des fourmis (RGB_déposée)(RGB_suivie)(x,y,direction,taille)(TypeDeplacement,ProbaG,ProbaTD,ProbaD,ProbaSuivre);...;" } };
     return lInfo;
   }
@@ -116,11 +108,10 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
    * Initialisation de l'applet
    *
    */
-//  @Benchmark
   @Override
   public void init() {
     URL lFileName;
-    URLClassLoader urlLoader = (URLClassLoader)this.getClass().getClassLoader();
+    URLClassLoader urlLoader = (URLClassLoader) this.getClass().getClassLoader();
 
     // lecture des parametres de l'applet
 
@@ -380,11 +371,11 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
         lProbaD /= lSomme;
 
         System.out.println(
-            "(" + lTypeDeplacement + "," + lProbaG + "," + lProbaTD + "," + lProbaD + "," + lProbaSuivre + ");");
+                "(" + lTypeDeplacement + "," + lProbaG + "," + lProbaTD + "," + lProbaD + "," + lProbaSuivre + ");");
 
         // création de la fourmi
         lFourmi = new CFourmi(lCouleurDeposee, lCouleurSuivie, lProbaTD, lProbaG, lProbaD, lProbaSuivre, mPainting,
-            lTypeDeplacement, lInit_x, lInit_y, lInitDirection, lTaille, lSeuilLuminance, this);
+                lTypeDeplacement, lInit_x, lInit_y, lInitDirection, lTaille, lSeuilLuminance, this);
         mColonie.addElement(lFourmi);
         lNbFourmis++;
       }
@@ -435,16 +426,16 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
         lProbaSuivre = (float) (0.5 + 0.5 * Math.random());
 
         System.out.print(
-            "Random:(" + lTabColor[i].getRed() + "," + lTabColor[i].getGreen() + "," + lTabColor[i].getBlue() + ")");
+                "Random:(" + lTabColor[i].getRed() + "," + lTabColor[i].getGreen() + "," + lTabColor[i].getBlue() + ")");
         System.out.print("(" + lTabColor[lColor].getRed() + "," + lTabColor[lColor].getGreen() + ","
-            + lTabColor[lColor].getBlue() + ")");
+                + lTabColor[lColor].getBlue() + ")");
         System.out.print("(" + lInit_x + "," + lInit_y + "," + lInitDirection + "," + lTaille + ")");
         System.out.println(
-            "(" + lTypeDeplacement + "," + lProbaG + "," + lProbaTD + "," + lProbaD + "," + lProbaSuivre + ");");
+                "(" + lTypeDeplacement + "," + lProbaG + "," + lProbaTD + "," + lProbaD + "," + lProbaSuivre + ");");
 
         // création et ajout de la fourmi dans la colonie
         lFourmi = new CFourmi(lTabColor[i], lTabColor[lColor], lProbaTD, lProbaG, lProbaD, lProbaSuivre, mPainting,
-            lTypeDeplacement, lInit_x, lInit_y, lInitDirection, lTaille, lSeuilLuminance, this);
+                lTypeDeplacement, lInit_x, lInit_y, lInitDirection, lTaille, lSeuilLuminance, this);
         mColonie.addElement(lFourmi);
       }
     }
@@ -457,7 +448,6 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
    * deux couleurs
    *
    */
-  @Benchmark
   @Override
   public void run() {
     // System.out.println(this.getName()+ ":run()");
@@ -507,9 +497,8 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
    * Lancer l'applet
    *
    */
-  @Benchmark
   @Override
-  public void start(){
+  public void start() {
     // System.out.println(this.getName()+ ":start()");
     mColony = new CColonie(mColonie, this);
     mThreadColony = new Thread(mColony);
@@ -537,7 +526,6 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
    * Arrêter l'applet
    *
    */
-  @Benchmark
   @Override
   public void stop() {
     showStatus("stopped...");
